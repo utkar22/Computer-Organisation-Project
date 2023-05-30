@@ -48,3 +48,72 @@ The bonus feature generates a scatter plot that visualizes the memory access tra
 ### Output Format
 
 The memory access trace scatter plot is not described in detail in this README. Please refer to the implementation code for the specific details on how the scatter plot is generated.
+
+
+## Instruction Set Architecture (ISA)
+
+### Supported Instructions
+
+The ISA supports the following instructions:
+
+1. **Addition**: `add reg1 reg2 reg3`
+   - Opcode: `00000`
+   - Semantics: Performs `reg1 = reg2 + reg3`. If the computation overflows, the overflow flag is set.
+
+2. **Subtraction**: `sub reg1 reg2 reg3`
+   - Opcode: `00001`
+   - Semantics: Performs `reg1 = reg2 - reg3`. If `reg3 > reg2`, 0 is written to `reg1` and the overflow flag is set.
+
+3. **Move Immediate**: `mov reg1 $Imm`
+   - Opcode: `00010`
+   - Semantics: Performs `reg1 = $Imm`, where `$Imm` is an 8-bit immediate value.
+
+4. **Move Register**: `mov reg1 reg2`
+   - Opcode: `00011`
+   - Semantics: Performs `reg1 = reg2`.
+
+5. **Load**: `ld reg1 mem_addr`
+   - Opcode: `00100`
+   - Semantics: Loads data from `mem_addr` into `reg1`.
+
+6. **Store**: `st reg1 mem_addr`
+   - Opcode: `00101`
+   - Semantics: Stores data from `reg1` to `mem_addr`.
+
+7. **Multiply**: `mul reg1 reg2 reg3`
+   - Opcode: `00110`
+   - Semantics: Performs `reg1 = reg2 x reg3`. If the computation overflows, the overflow flag is set.
+
+8. **Divide**: `div reg3 reg4`
+   - Opcode: `00111`
+   - Semantics: Performs `reg3 / reg4`. Stores the quotient in `R0` and the remainder in `R1`.
+  
+9. **Jump**: `jmp target`
+   - Opcode: `01000`
+   - Semantics: Unconditionally jumps to the instruction at the `target` address.
+
+10. **Jump if Zero**: `jz reg1 target`
+    - Opcode: `01001`
+    - Semantics: Jumps to the `target` address if `reg1` is zero.
+
+11. **Jump if Not Zero**: `jnz reg1 target`
+    - Opcode: `01010`
+    - Semantics: Jumps to the `target` address if `reg1` is not zero.
+
+12. **Jump if Carry**: `jc reg1 target`
+    - Opcode: `01011`
+    - Semantics: Jumps to the `target` address if the carry flag is set.
+
+13. **Jump if Not Carry**: `jnc reg1 target`
+    - Opcode: `01100`
+    - Semantics: Jumps to the `target` address if the carry flag is not set.
+
+### Instruction Encoding
+
+Each instruction is encoded into a 16-bit binary representation. The encoding format is as follows:
+
+```
+| Opcode (5 bits) | Operand 1 (3 bits) | Operand 2 (3 bits) | Operand 3 (3 bits) |
+```
+
+The opcode field represents the operation to be performed, and the operand fields specify the registers or memory addresses involved in the instruction.
